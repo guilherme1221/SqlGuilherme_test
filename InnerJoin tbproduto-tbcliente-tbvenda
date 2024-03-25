@@ -1,0 +1,32 @@
+SELECT 
+    p.produto_id,
+    p.nome AS nome_produto,
+    p.preco,
+    c.nome AS nome_cliente,
+    c.sexo
+FROM 
+    tbproduto p
+INNER JOIN 
+    tbcliente c ON p.cliente_cpf = c.cpf;
+----------------------------------------------------------------------------
+SELECT 
+    p.nome AS nome_produto,
+    c.nome AS nome_cliente,
+    SUM(p.preco) AS total_compras
+FROM 
+    tbproduto p
+INNER JOIN 
+    tbcliente c ON p.cliente_cpf = c.cpf
+GROUP BY 
+    p.nome, c.nome;
+----------------------------------------------------------------------------
+SELECT 
+    c.nome AS nome_cliente,
+    p.nome AS nome_produto,
+    v.data_venda
+FROM 
+    tbvenda v
+INNER JOIN 
+    tbproduto p ON v.produto_id = p.produto_id
+INNER JOIN 
+    tbcliente c ON v.cliente_cpf = c.cpf;
