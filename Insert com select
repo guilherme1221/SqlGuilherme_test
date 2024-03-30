@@ -1,0 +1,10 @@
+alter table clientes modify primeira_compra bit(1);
+
+insert into clientes
+SELECT cpf, nome, endereco_1 as endereco, bairro, cidade, estado, cep, 
+data_de_nascimento as data_nascimento, idade, sexo, 
+limite_de_credito as limite_credito, volume_de_compra as volume_compra, primeira_compra 
+FROM sucos_vendas.tabela_de_clientes 
+where cpf not in(select cpf from clientes);
+
+select * from clientes;
