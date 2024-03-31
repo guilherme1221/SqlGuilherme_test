@@ -1,0 +1,29 @@
+CREATE TABLE `vendedores` (
+  `MATRICULA` int DEFAULT NULL,
+  `NOME` text,
+  `COMISSAO` double DEFAULT NULL,
+  `DATA_ADMISSAO` text,
+  `FERIAS` int DEFAULT NULL,
+  `BAIRRO` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DELIMITER //
+
+CREATE TRIGGER definir_comissao_padrao
+BEFORE INSERT ON vendedores
+FOR EACH ROW
+BEGIN
+    IF NEW.COMISSAO IS NULL THEN
+        SET NEW.COMISSAO = 0;
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+/*
+BEFORE INSERT ON vendedores: Esta parte indica que a trigger será acionada antes da inserção de um novo registro na tabela vendedores
+IF NEW.COMISSAO IS NULL: Verifica se o valor da coluna COMISSAO para o novo registro é nulo.
+SET NEW.COMISSAO = 0; Se a comissão for nula, define automaticamente o valor da comissão como 0 para o novo registro que está sendo inserido.
+DELIMITER ; para restaurar o padrão do mysql
+*/
