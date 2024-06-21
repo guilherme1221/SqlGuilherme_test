@@ -1,0 +1,86 @@
+INSERT INTO NOTAS (NUMERO, DATA_VENDA, CPF, MATRICULA, IMPOSTO)
+VALUES ('004', TO_DATE('2019-01-02','YYYY-MM-DD'), '1471156710', '235', 0.1);
+
+INSERT INTO ITENS_NOTAS (NUMERO, CODIGO, QUANTIDADE, PRECO)
+VALUES ('004', '1000889', 21, 10);
+
+delete from tab_faturamento;
+
+insert into tab_faturamento
+select
+n.data_venda, sum(itn.quantidade * itn.preco) as faturamento
+from
+notas n
+inner join
+itens_notas itn
+on n.numero = itn.numero
+group by n.data_venda;
+
+create trigger tg_tab_faturamento
+after insert on itens_notas
+begin
+delete from tab_faturamento;
+insert into tab_faturamento
+select
+n.data_venda, sum(itn.quantidade * itn.preco) as faturamento
+from
+notas n
+inner join
+itens_notas itn
+on n.numero = itn.numero
+group by n.data_venda;
+end;
+
+INSERT INTO NOTAS (NUMERO, DATA_VENDA, CPF, MATRICULA, IMPOSTO)
+VALUES ('005', TO_DATE ('2019-01-03', 'YYY-MM-DD'), '1471156710', '235', 0.1);
+INSERT INTO ITENS_NOTAS (NUMERO, CODIGO, QUANTIDADE, PRECO)
+VALUES ('005', '1000889', 12,10);
+
+select * from tab_faturamento;
+
+create or replace trigger tg_tab_faturamento
+after insert on itens_notas
+for each row
+begin
+    delete from tab_faturamento;
+    insert into tab_faturamento
+    select
+        n.data_venda, 
+        sum(itn.quantidade * itn.preco) as faturamento
+    from
+        notas n
+    inner join
+        itens_notas itn
+    on
+        n.numero = itn.numero
+    group by
+        n.data_venda;
+end;
+/
+
+INSERT INTO NOTAS (NUMERO, DATA_VENDA, CPF, MATRICULA, IMPOSTO)
+VALUES ('005', TO_DATE ('2019-01-03', 'YYYY-MM-DD'), '1471156710', '235', 0.1);
+
+INSERT INTO ITENS_NOTAS (NUMERO, CODIGO, QUANTIDADE, PRECO)
+VALUES ('005', '1471156710', 12, 10);
+
+
+CREATE OR REPLACE TRIGGER TG_TAB_FATURAMENTO--create or replace para evitar que criamos uma trigger repetida, ou talvez queremos manter o mesmo novo e refaze-la.
+AFTER INSERT OR UPDATE OR DELETE ON ITENS_NOTAS--para funcionar tanto no insert como no delete e update
+BEGIN
+DELETE FROM TAB_FATURAMENTO;
+INSERT INTO TAB_FATURAMENTO
+SELECT
+N.DATA_VENDA, SUM(ITN.QUANTIDADE * ITN.PRECO), AS FATURAMENTO
+FROM
+NOTAS N
+INNER JOIN
+ITENS_NOTAS ITN
+ON N.NUMERO = ITN.NUMERO
+GROUP BY N.DATA_VENDA;
+END;
+
+
+
+
+
