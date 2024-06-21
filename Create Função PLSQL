@@ -1,0 +1,26 @@
+CREATE OR REPLACE FUNCTION obter_descricao_segmercado
+(p_ID IN SEGMERCADO.ID%type)
+RETURN SEGMERCADO.DESCRICAO%type
+IS
+    v_DESCRICAO SEGMERCADO.DESCRICAO%TYPE;
+BEGIN
+    SELECT DESCRICAO INTO v_DESCRICAO FROM SEGMERCADO WHERE ID = p_ID;
+    RETURN v_DESCRICAO;
+END;
+
+------------------------------------
+
+CREATE OR REPLACE FUNCTION retorna_categoria
+(p_cod in produto_exercicio.cod%type) 
+RETURN produto_exercicio.categoria%type
+IS
+    v_categoria produto_exercicio.categoria%type;
+BEGIN
+    SELECT categoria INTO v_categoria from produto_exercicio where cod = p_COD;
+    RETURN v_categoria;
+END;
+
+SELECT ID, DESCRICAO FROM SEGMERCADO WHERE ID = 1;
+
+
+
