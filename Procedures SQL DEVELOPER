@@ -1,0 +1,38 @@
+CREATE PROCEDURE INCLUINDO_PRODUTO
+(p_cod in VARCHAR2, p_descricao in varchar2, p_categoria in varchar2)
+IS
+BEGIN
+INSERT INTO  produto_exercicio (COD, DESCRICAO, CATEGORIA) VALUES (p_cod, p_descricao, p_categoria);
+    COMMIT;
+END;
+
+SELECT * FROM PRODUTO_EXERCICIO;
+
+---------------------------------------------------------
+
+create procedure ALTERANDO_CATEGORIA
+(p_cod in VARCHAR2, p_categoria in varchar2)
+is
+begin
+UPDATE produto_exercicio SET categoria = p_categoria where cod = p_cod;
+    COMMIT;
+end;
+
+--------------------------------------------------
+
+CREATE PROCEDURE EXCLUINDO_PRODUTO
+(p_cod in VARCHAR2)
+IS
+BEGIN
+DELETE FROM produto_exercicio where cod = p_cod;
+COMMIT;
+END;
+
+execute incluindo_produto('33854', 'Frescor da Montanha - Aroma Laranja - 1 Litro', 'Mate');
+execute incluindo_produto('89254', 'Frescor da Montanha - Aroma Uva - 1 Litro', 'Águas');
+
+SELECT * FROM PRODUTO_EXERCICIO;
+
+execute alterando_categoria('33854','Águas');
+
+execute excluindo_produto('89254');
