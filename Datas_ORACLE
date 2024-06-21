@@ -1,0 +1,58 @@
+-- Utilizando TO_DATE para converter uma string em data
+SELECT TO_DATE('1/1/2022', 'DD/MM/YYYY') AS data_convertida FROM dual;
+
+-- Mostra a data e hora atual
+SELECT SYSDATE FROM dual;
+/* DUAL é uma tabela fictícia que está sempre presente no Oracle Database. */
+
+-- Representando a data e a hora atual em formato específico
+SELECT TO_CHAR(SYSDATE, 'DD/MM/YYYY HH:MI:SS') FROM dual;
+/* 
+TO_CHAR no Oracle é usada para converter diferentes tipos de dados (como números e datas) em strings (VARCHAR2). 
+Quando aplicada a datas, permite formatar a data em uma representação textual específica.
+Formato:
+- DD: Dia com dois dígitos (01 a 31)
+- MM: Mês com dois dígitos (01 a 12)
+- YYYY: Ano com quatro dígitos (0000 a 9999)
+- HH: Hora no formato de 12 horas (01 a 12)
+- MI: Minuto com dois dígitos (00 a 59)
+- SS: Segundo com dois dígitos (00 a 59)
+*/
+
+-- Selecionando nome e data de nascimento dos clientes
+SELECT nome, data_de_nascimento FROM tabela_de_clientes;
+
+-- Formatando a data de nascimento dos clientes
+SELECT nome, TO_CHAR(data_de_nascimento, 'DD MONTH YYYY, DAY') FROM tabela_de_clientes;
+/* 
+Formato:
+- DD: Dia com dois dígitos (01 a 31)
+- MONTH: Nome completo do mês
+- YYYY: Ano com quatro dígitos (0000 a 9999)
+- DAY: Nome completo do dia da semana
+*/
+
+-- Somando 127 dias à data de hoje
+SELECT SYSDATE + 127 FROM dual;
+
+-- Calculando a idade aproximada dos clientes em anos
+SELECT nome, idade, (SYSDATE - data_de_nascimento) / 365 AS anos_de_vida FROM tabela_de_clientes;
+/* A idade calculada em anos é aproximada, pois não considera anos bissextos ou diferenças de mês/dia. */
+
+-- Adicionando 10 meses à data de hoje
+SELECT ADD_MONTHS(SYSDATE, 10) FROM dual;
+
+-- Calculando quando será a próxima sexta-feira
+SELECT SYSDATE, NEXT_DAY(SYSDATE, 'SEXTA') FROM dual;
+
+-- Mostra os parâmetros de sessão do Oracle, incluindo o idioma
+SELECT * FROM NLS_SESSION_PARAMETERS;
+/* O SQL Developer está configurado para o português brasileiro, por isso reconhece 'SEXTA' como sexta-feira. */
+
+-- Retornando o último dia do mês atual
+SELECT SYSDATE, LAST_DAY(SYSDATE) FROM dual;
+
+
+
+
+
