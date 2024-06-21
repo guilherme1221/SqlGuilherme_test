@@ -1,0 +1,12 @@
+VARIABLE g_DESCRICAO VARCHAR2(100);
+EXECUTE :g_DESCRICAO:=obter_descricao_segmercado(3);
+print g_DESCRICAO;
+
+SET SERVEROUTPUT ON
+DECLARE
+    v_DESCRICAO SEGMERCADO.DESCRICAO%TYPE;
+    v_ID SEGMERCADO.ID%TYPE := 2;
+BEGIN
+    v_DESCRICAO := obter_descricao_segmercado(v_ID);
+    dbms_output.put_line('A descrição do segmento de mercado é ' || v_descricao);
+END;
